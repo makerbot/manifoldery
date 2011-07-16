@@ -4,7 +4,8 @@
 #include <iostream>
 #include "Mesh.hh"
 
-class ParseException;
+class ParseException {
+};
 
 Mesh loadSTL(std::istream& in, bool binary);
 

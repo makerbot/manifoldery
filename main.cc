@@ -17,9 +17,15 @@ int main(int argc, char** argv) {
   if (argc <= 1) { usage(); return -1; }
 
   for (int i = 1; i < argc; i++) {
-    ifstream f(argv[i]);
     cout << "Evaluating " << argv[i] << "..." << endl;
-    Mesh m = loadSTL(f,true);
+    Mesh m;
+    try {
+      ifstream f(argv[i]);
+      m = loadSTL(f,false);
+    } catch (ParseException e) {
+      ifstream f(argv[i]);
+      m = loadSTL(f,true);
+    }
     // Scan mesh for holes
     cout << "Mesh loaded. Non-manifold edge count: " << m.edges.countNonManifoldEdges() << endl;
   }

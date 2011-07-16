@@ -63,6 +63,8 @@ Mesh loadBinarySTL(std::istream& in) {
   uint32_t facets = readUInt32(in);
   cout << "Facet count: " << facets << endl;
   for (int f = 0; f < facets; f++) {
+    // TODO: check that file is long enough! We can't have this
+    // block.
     // Read normal and discard (for now)
     Vertex normal = readVertex(in);
     Vertex v[3];
@@ -86,7 +88,8 @@ void writeBinarySTL(std::ostream& out, Mesh& mesh) {
 
 
 Mesh loadAsciiSTL(std::istream& in) {
-  throw -1;
+  
+  throw ParseException();
 }
 
 void writeAsciiSTL(std::ostream& out, Mesh& mesh) {
