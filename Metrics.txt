@@ -1,0 +1,17 @@
+Just some random figures for now.
+
+Facet count: 62592
+nlgn: 691290
+user	0m0.360s
+
+Facet count: 7944
+nlgn: 71338
+user	0m0.030s
+
+Facet count: 2892
+nlgn: 23048
+user	0m0.010s
+
+These appear to be roughly in keeping with our back-of-the envelope
+analysis that manifold checking can be done in NlogN.
+
