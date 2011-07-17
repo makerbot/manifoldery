@@ -60,9 +60,10 @@ Mesh loadBinarySTL(std::istream& in) {
   in.read(comment,80);
   comment[80] = '\0';
   cout << "STL header comment: " << comment << endl;
+  mesh.comment = comment;
   uint32_t facets = readUInt32(in);
   cout << "Facet count: " << facets << endl;
-  for (int f = 0; f < facets; f++) {
+  for (int f = 0; f < facets && !in.eof(); f++) {
     // TODO: check that file is long enough! We can't have this
     // block.
     // Read normal and discard (for now)
@@ -78,6 +79,10 @@ Mesh loadBinarySTL(std::istream& in) {
     mesh.tris.push_back(t);
     int triIdx = mesh.tris.size();
     mesh.edges.addEdgesForTriangle(t,triIdx);
+  }
+  if (in.fail()) {
+    cout << "Error reading file; file possibly corrupted or misunderstood." <<
+      endl;
   }
   return mesh;
 }

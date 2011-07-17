@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <map>
+#include <string>
 
 /**
  * A Vertex is a point in 3-space.
@@ -76,6 +77,7 @@ public:
 
 class Mesh {
 public:
+  std::string comment; // STL comment field
   VertexCollection vertices;
   std::vector<Triangle> tris;
   EdgeMap edges;
