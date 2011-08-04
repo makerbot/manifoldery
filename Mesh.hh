@@ -52,10 +52,12 @@ public:
 class Triangle {
 private:
   int v[3];
+  Vertex normalVect;
 public:
   Triangle() {}
   int& operator[](int idx) { return v[idx]; }
   const int& operator[](int idx) const { return v[idx]; }
+  Vertex& normal() { return normalVect; }
 };
 
 typedef std::pair<int,int> intpair;

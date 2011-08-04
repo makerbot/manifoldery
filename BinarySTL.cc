@@ -45,10 +45,10 @@ Mesh loadBinarySTL(std::istream& in) {
   for (int f = 0; f < facets && !in.eof(); f++) {
     // TODO: check that file is long enough! We can't have this
     // block.
-    // Read normal and discard (for now)
-    Vertex normal = readVertex(in);
-    Vertex v[3];
+    // Read normal
     Triangle t;
+    t.normal() = readVertex(in);
+    Vertex v[3];
     for (int i =0; i < 3; i++) {
       v[i] = readVertex(in);
       t[i] = mesh.vertices.addVertex(v[i]);

@@ -31,7 +31,7 @@ static Vertex readVertex(std::istream& in, const string expected) {
 static Triangle readTriangle(std::istream& in, Mesh& mesh) {
   Triangle t;
   expect(in, "facet");
-  Vertex n = readVertex(in,"normal");
+  t.normal() = readVertex(in,"normal");
   
   expect(in, "outer");
   expect(in, "loop");
