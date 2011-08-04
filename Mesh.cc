@@ -114,7 +114,7 @@ list<Loop> EdgeMap::getHoles() {
     looseEdges.removeEdge(prev,next);
     holes.push_back(hole);
   }
-  cout << "Loop count is " << holes.size() << endl;
+  // cout << "Loop count is " << holes.size() << endl;
   return holes;
 
 }

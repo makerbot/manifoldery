@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
   if (argc <= 1) { usage(); return -1; }
 
   for (int i = 1; i < argc; i++) {
-    cout << "Evaluating " << argv[i] << "..." << endl;
+    cout << argv[i] << ": ";
     Mesh m;
     try {
       AsciiStlFormatter format;
@@ -29,8 +29,20 @@ int main(int argc, char** argv) {
       m = format.readMesh(f);
     }
     // Scan mesh for holes
-    m.edges.getHoles();
-    cout << "Mesh loaded. Non-manifold edge count: " << m.edges.countNonManifoldEdges() << endl;
+    list<Loop> loops = m.edges.getHoles();
+    if (loops.size() > 0) {
+      cout << loops.size() << " loops" << endl;
+      list<Loop>::iterator j = loops.begin();
+      while (j != loops.end()) {
+	for (Loop::iterator k = j->begin(); k != j->end(); k++) {
+	  cout << *k << " ";
+	}
+	cout << endl;
+	j++;
+      }
+    } else {
+      cout << "OK" << endl;
+    }
   }
   return 0;
 }
