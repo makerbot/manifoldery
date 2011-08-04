@@ -20,11 +20,13 @@ int main(int argc, char** argv) {
     cout << "Evaluating " << argv[i] << "..." << endl;
     Mesh m;
     try {
+      AsciiStlFormatter format;
       ifstream f(argv[i]);
-      m = loadSTL(f,false);
+      m = format.readMesh(f);
     } catch (ParseException e) {
+      BinaryStlFormatter format;
       ifstream f(argv[i]);
-      m = loadSTL(f,true);
+      m = format.readMesh(f);
     }
     // Scan mesh for holes
     cout << "Mesh loaded. Non-manifold edge count: " << m.edges.countNonManifoldEdges() << endl;

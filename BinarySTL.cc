@@ -32,7 +32,7 @@ static Vertex readVertex(std::istream& in) {
   return v;
 }
 
-Mesh loadBinarySTL(std::istream& in) {
+Mesh BinaryStlFormatter::readMesh(std::istream& in) {
   Mesh mesh;
   istream::char_type comment[81];
   istream::char_type padding[2];
@@ -66,6 +66,6 @@ Mesh loadBinarySTL(std::istream& in) {
   return mesh;
 }
 
-void writeBinarySTL(std::ostream& out, Mesh& mesh) {
+void BinaryStlFormatter::writeMesh(std::ostream& out, const Mesh& mesh) {
   throw -1;
 }

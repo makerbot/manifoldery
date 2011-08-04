@@ -45,7 +45,7 @@ static Triangle readTriangle(std::istream& in, Mesh& mesh) {
   return t;
 }
 
-Mesh loadAsciiSTL(std::istream& in) {  
+Mesh AsciiStlFormatter::readMesh(std::istream& in) {  
   Mesh mesh;
   in.width(80);
   string comment = readHeader(in);
@@ -65,6 +65,6 @@ Mesh loadAsciiSTL(std::istream& in) {
   return mesh;
 }
 
-void writeAsciiSTL(std::ostream& out, Mesh& mesh) {
+void AsciiStlFormatter::writeMesh(std::ostream& out, const Mesh& mesh) {
   throw -1;
 }

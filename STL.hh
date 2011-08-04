@@ -1,14 +1,18 @@
 #ifndef STL_HH
 #define STL_HH
 
-#include <iostream>
-#include "Mesh.hh"
+#include "Formatter.hh"
 
-class ParseException {
+class AsciiStlFormatter : public Formatter {
+public:
+  Mesh readMesh(std::istream& in);
+  void writeMesh(std::ostream& out, const Mesh& mesh);
 };
 
-Mesh loadSTL(std::istream& in, bool binary);
+class BinaryStlFormatter : public Formatter {
+public:
+  Mesh readMesh(std::istream& in);
+  void writeMesh(std::ostream& out, const Mesh& mesh);
+};
 
-void writeSTL(std::ostream& out, Mesh& mesh, bool binary);
-
-#endif
+#endif // STL_HH
