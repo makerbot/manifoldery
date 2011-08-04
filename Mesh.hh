@@ -4,7 +4,30 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <list>
 
+/***
+ * And what is a mesh? It's almost political.
+ *
+ * STL: a set of facets, each a triangle, with face normals and a top-level comment.
+ * OBJ: a set of vertices, texture offsets, and vertex normals, bound up into triangles.
+ * Collada, AMF: ridiculously high level structures.
+ *
+ * What's the purpose of manifoldery? We'd like to:
+ * - Detect holes in object files
+ * - Automatically heal small problems
+ * The fundamental problem is that the healing step involves writing out
+ * the file again, which involves storing _all_ the high-level data (normals,
+ * comments, textures, etc.) so as to be able to spit it out again later.
+ *
+ * Clearly, that's not a single-flight hack.
+ *
+ * Limitations: we're only going to emit STL files, _and_ we're going to
+ * ignore the normals on the faces that we generate.
+ *
+ * We'll only import STL for now, and consider OBJ, etc. later.
+ */
+ 
 /**
  * A Vertex is a point in 3-space.
  */
@@ -60,6 +83,12 @@ public:
   Vertex& normal() { return normalVect; }
 };
 
+/**
+ * A loop is a list of vertices of length >=3. It's usually
+ * used to represent the perimeter of a hole.
+ */
+typedef std::list<int> Loop;
+
 typedef std::pair<int,int> intpair;
 
 /**
@@ -75,6 +104,7 @@ public:
   void addEdgesForTriangle(const Triangle& t, int triIdx);
 
   int countNonManifoldEdges();
+  std::list<Loop> getHoles();
 };
 
 class Mesh {

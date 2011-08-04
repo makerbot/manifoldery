@@ -38,10 +38,10 @@ Mesh BinaryStlFormatter::readMesh(std::istream& in) {
   istream::char_type padding[2];
   in.read(comment,80);
   comment[80] = '\0';
-  cout << "STL header comment: " << comment << endl;
+  //cout << "STL header comment: " << comment << endl;
   mesh.comment = comment;
   uint32_t facets = readUInt32(in);
-  cout << "Facet count: " << facets << endl;
+  //cout << "Facet count: " << facets << endl;
   for (int f = 0; f < facets && !in.eof(); f++) {
     // TODO: check that file is long enough! We can't have this
     // block.
@@ -60,8 +60,9 @@ Mesh BinaryStlFormatter::readMesh(std::istream& in) {
     mesh.edges.addEdgesForTriangle(t,triIdx);
   }
   if (in.fail()) {
-    cout << "Error reading file; file possibly corrupted or misunderstood." <<
+    cerr << "Error reading file; file possibly corrupted or misunderstood." <<
       endl;
+    throw ParseException();
   }
   return mesh;
 }

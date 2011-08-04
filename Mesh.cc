@@ -1,4 +1,6 @@
 #include "Mesh.hh"
+#include <iostream>
+using namespace std;
 
 bool Vertex::operator<(const Vertex& second) const {
   if (v[0] < second[0]) { return true; }
@@ -56,6 +58,65 @@ void EdgeMap::addEdgesForTriangle(const Triangle& t, int triIdx) {
   addTriangleEdge(t[0],t[1],triIdx);
   addTriangleEdge(t[1],t[2],triIdx);
   addTriangleEdge(t[2],t[0],triIdx);
+}
+
+class LooseEdgeMap : public map<int,list<int> >
+{
+private:
+  void addInternalEdge(int a, int b) {
+    (*this)[a].push_back(b);
+    //cout << "adding " << a << ", " << b << endl;
+  }
+  void removeInternalEdge(int a, int b) {
+    iterator i = find(a);
+    i->second.remove(b);
+    //cout << "removing " << a << ", " << b << endl;
+    if (i->second.size() == 0) {
+      erase(i);
+    }
+  }
+public:
+  void addEdge(int a, int b) {
+    addInternalEdge(a,b);
+    addInternalEdge(b,a);
+  }
+  void removeEdge(int a, int b) {
+    removeInternalEdge(a,b);
+    removeInternalEdge(b,a);
+  }
+  int getAdjacent(int a) {
+    return (*this)[a].front();
+  } 
+};
+
+list<Loop> EdgeMap::getHoles() {
+  typedef map<int,intpair> leMap;
+  LooseEdgeMap looseEdges;
+  for (const_iterator i = begin(); i != end(); i++) {
+    if (i->second.second == -1) { 
+      looseEdges.addEdge(i->first.first, i->first.second);
+    }
+  }
+  list<Loop> holes;
+  while (!looseEdges.empty()) {
+    Loop hole;
+    int start = looseEdges.begin()->first;
+    hole.push_back(start);
+    int next = start;
+    int prev = next;
+    //cout << "START " << next << endl;
+    while ((next = looseEdges.getAdjacent(next)) != start) {
+      hole.push_back(next);
+      looseEdges.removeEdge(prev,next);
+      prev = next;
+      //cout << next << endl;
+    }
+    looseEdges.removeEdge(prev,next);
+    holes.push_back(hole);
+  }
+  cout << "Loop count is " << holes.size() << endl;
+  return holes;
+
 }
 
 int EdgeMap::countNonManifoldEdges() {

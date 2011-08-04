@@ -49,7 +49,7 @@ Mesh AsciiStlFormatter::readMesh(std::istream& in) {
   Mesh mesh;
   in.width(80);
   string comment = readHeader(in);
-  cout << "STL ASCII header comment: " << comment << endl;
+  //cout << "STL ASCII header comment: " << comment << endl;
   mesh.comment = comment;
   try {
     while (1) {
@@ -61,7 +61,7 @@ Mesh AsciiStlFormatter::readMesh(std::istream& in) {
   } catch (ParseException e) {
     // Okay, probably endsolid
   }
-  cout << "Loaded mesh; facet count " << mesh.tris.size() << endl;
+  //cout << "Loaded mesh; facet count " << mesh.tris.size() << endl;
   return mesh;
 }
 

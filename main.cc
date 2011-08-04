@@ -29,6 +29,7 @@ int main(int argc, char** argv) {
       m = format.readMesh(f);
     }
     // Scan mesh for holes
+    m.edges.getHoles();
     cout << "Mesh loaded. Non-manifold edge count: " << m.edges.countNonManifoldEdges() << endl;
   }
   return 0;
