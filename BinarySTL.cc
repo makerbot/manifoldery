@@ -2,7 +2,28 @@
 
 #include <iostream>
 #include <stdint.h>
-#include <endian.h>
+
+#ifdef ON_DARWIN
+#if !defined(le32toh) || !defined(htole32)
+  #if BYTE_ORDER == LITTLE_ENDIAN
+    #define le32toh(x) (x)
+    #define htole32(x) bswap_32(x)
+  #else
+    #define le32toh(x) bswap_32(x)
+    #define htole32(x) (x)
+  #endif
+#endif
+ #if defined(HAVE_COREFOUNDATION_COREFOUNDATION_H)
+    #include <CoreFoundation/CoreFoundation.h>
+    #define htole32(x) CFSwapInt32HostToLittle(x)
+    #define le32toh(x) CFSwapInt32LittleToHost(x)
+ #endif
+#else
+  #if defined(ON_LINUX) 
+    #include <endian.h>
+  #endif /*ON_LINUX*/
+#endif
+
 
 using namespace std;
 
